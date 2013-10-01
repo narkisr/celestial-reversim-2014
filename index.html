@@ -53,7 +53,7 @@
 
 	  <section>
 	    <h3>We run against EC2/VMware/...</h3>
-	    <table>
+	    <table cellsapcing='10'>
 		<tr>
 		  <td> <img src="./img/vmware.jpg" width="50%" height="50%" alt=""></td>
 		  <td> <img src="./img/docker.png" width="50%" height="50%" alt=""></td>
@@ -72,7 +72,7 @@
 		<h2>Now we need to </h2>
 	    </section>
 	    <section>
-		<h3> functional requirements </h3>
+		<h4> (functional) requirements </h4>
 		<ul>
 		  <li>Have an API and UI</li>
 		  <li>Allow users to self service </li>
@@ -80,17 +80,7 @@
 		  <li>Support multiple platforms as transparently </li>
 		</ul>
 	    </section>
-	    
-	    <section> 
-		<h3>Technical requirements</h3>
-		<ul>
-		  <li>Integrate desperate tools/APIs into a cohesive system </li>
-		  <li>Prevent collisions between tools</li>
-		  <li>Audit systems changes</li>
-		  <li>Easy triaging when things go wrong</li>
-		  <li>Update external systems automatically (DNS, monitoring, routing? etc..). </li>
-		</ul>
-	    </section>
+
 	  </section>
 
 	  <section>
@@ -98,25 +88,23 @@
 	    <img src="./img/celestial-centered.png" alt="" style="border:none;" />
 	  </section>
 
-	  <section>
-	    <h3>Best practices baked in</h3>
-	    <ul>
-		<li>Unified Access via <a href="http://celestial-ops.com/posts/api.html">documented</a> Restful API</li>
-		<li>Complete Auditing of all actions (via Graylog2/Kiabana)</li>
-		<li>Asynchronous execution with distributed locking</li>
-		<li>Role and Quota management</li>
-	    </ul>
-	  </section>
-
 	  <section> 
+
 	    <section> 
-	     <h2> Basic model </h2> 
-	     <p> System - Basic machine properties and type reference</p>
+		<h2> Basic model </h2> 
+		<ul>
+		  <li> System - Machine and hypervisor properties</li>
+		  <li> Type - The system function and provisioning info</li>
+		</ul>
 
 	    </section>
-	   	    <pre><code data-trim class="clojure"> 
 
+	    <section> 
+		<h3> System </h3>
+		<pre><code data-trim class="clojure"> 
 {
+ :env :dev
+
  :machine {
   :hostname "red1" :user "ubuntu" :os :ubuntu-12.10
  }
@@ -129,24 +117,22 @@
   }
 
  :type "redis"
+
 }
-	    </code></pre>
+		</code></pre>
 
-	  </section>
+	    </section>
 
-	  <section> 
-
-	    <h2> Basic model </h2> 
-	    <p> Type - Describes how to set up a service type</p>
-
-	    <pre><code class="clojure"> 
-
+	    <section> 
+		<h3> Type </h3>
+		<pre><code class="clojure"> 
 {
  :puppet-std {
     :module {
-	 :name "redis-sandbox-0.3.4" 
-	 :src "http://dl.bintray.com/redis-sandbox-0.3.4.tar.gz"
+	 :name "redis-sandbox-0.3.4"
+	 :src "http://dl.bintray.com/content/narkisr/boxes/redis-sandbox-0.3.4.tar.gz"
      }
+    :args []
   }
 
  :type "redis"
@@ -154,8 +140,48 @@
  :classes {:redis {:append true}}
 }
 
-	    </code></pre>	
+		</code></pre>	
+	    </section> 
+	  </section>
+
+	  <section> 
+	    <section> 
+		<h3>Feature rundown </h3>   
+	    </section>
+	    <section> 
+		<h3>Staging as scale</h3>
+		<ul>
+		  <li> Creation -> Provisioning -> Deployment -> Destruction  </li>
+		  <li> Distributed locking</li>
+		  <li> Central logging </li>
+		  <li> (Basic) network management </li>
+		</ul>
+	    </section>
+
+	    <section> 
+	       <h3> Integration </h3>
+		 <ul>
+		   <li> AWS/vCenter/Proxmox/Docker (soon) </li>
+		   <li> Standalone puppet (chef next) </li>
+		   <li> Capistrano/Fabric  </li>
+		 </ul>
+	    </section>
+
+	    <section> 
+	      <h3> UI </h3>
+		<ul>
+		  <li>Single page Webui (angularjs)</li>
+		  <li>Hubot (bi directional) </li>
+		  <li>Swagger</li>
+		</ul>
+	    </section>
+
+	    <section>
+	      <h3> Design</h3>
+	    </section>
+
 	  </section> 
+
 
 	  <section> 
 	    <h1> Demo!</h1>	
