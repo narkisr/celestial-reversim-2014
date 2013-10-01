@@ -68,20 +68,17 @@
 	  </section>
 
 	  <section>
-	    <section>
+	    <ul>
 		<h2>Now we need to </h2>
-	    </section>
-	    <section>
-		<h4> (functional) requirements </h4>
-		<ul>
-		  <li>Have an API and UI</li>
-		  <li>Allow users to self service </li>
-		  <li>Create systems automatically (nightly, auto-scaling)</li>
-		  <li>Support multiple platforms as transparently </li>
-		</ul>
-	    </section>
-
+		<li>Have an API and UI</li>
+		<li>Allow users to self service </li>
+		<li>Create systems automatically (nightly, auto-scaling)</li>
+		<li>Support multiple platforms transparently </li>
+		<li>Have a process not just another tool</li>
+		<li>Minimize manual bookeeping</li>
+	    </ul>
 	  </section>
+
 
 	  <section>
 	    <h2>Enter Celestial</h2>
@@ -158,17 +155,18 @@
 		</ul>
 	    </section>
 
+
 	    <section> 
-	       <h3> Integration </h3>
-		 <ul>
-		   <li> AWS/vCenter/Proxmox/Docker (soon) </li>
-		   <li> Standalone puppet (chef next) </li>
-		   <li> Capistrano/Fabric  </li>
-		 </ul>
+		<h3> Integration </h3>
+		<ul>
+		  <li> AWS/vCenter/Proxmox/Docker (soon) </li>
+		  <li> Standalone puppet (chef next) </li>
+		  <li> Capistrano/Fabric  </li>
+		</ul>
 	    </section>
 
 	    <section> 
-	      <h3> UI </h3>
+		<h3> UI </h3>
 		<ul>
 		  <li>Single page Webui (angularjs)</li>
 		  <li>Hubot (bi directional) </li>
@@ -177,14 +175,50 @@
 	    </section>
 
 	    <section>
-	      <h3> Design</h3>
+		<h3> Implementation/Design</h3>
 	    </section>
 
+	    <section> 
+		<h3> Components</h3>  
+		<ul>
+		  <li>Celestial server running on the JVM</li>
+		  <li>Redis: job queue, locks, model </li>
+		  <li>Hardware requirements (core duo 1 1.5 Ram worked fine ;))</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3> Deployment </h3>
+		<ul>
+		  <li>Puppet module</li>
+		  <li>Vagrant box</li>
+		  <li> Virtualbox appliance</li>
+		  <li> Docker (soon)</li>
+		</ul>
+	    </section>
+	    <section>
+		<h3> Code </h3>
+		<ul>
+		  <li>3081 lines of Clojure code</li>
+		  <li>Extensible, Vm, Provsioner, Remoter interfaces </li>
+		  <li>Polymorphic workflow sequences</li>
+		</ul>
+	    </section>
 	  </section> 
 
 
 	  <section> 
 	    <h1> Demo!</h1>	
+	  </section>
+
+	  <section> 
+	     <h3> Future </h3>
+	     <ul>
+	       <li>Stage Docker (dynamic hypervisors) </li>
+	       <li>Usage tracking</li>
+	       <li>Escape from SSH</li>
+		 <li>Community!</li>
+	     </ul>
 	  </section>
 
 	  <section> 
