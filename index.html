@@ -1,85 +1,121 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>Celestial, the provisioning hub</title>
+    <title>Celestial, the provisioning hub</title>
 
-		<meta name="description" content="Celestial provisioning server introduction ">
-		<meta name="author" content="Ronen Narkis">
+    <meta name="description" content="Celestial provisioning server introduction ">
+    <meta name="author" content="Ronen Narkis">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/sky.css" id="theme">
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
-	</head>
+  </head>
 
-	<body>
+  <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<div class="slides">
+	<div class="slides">
 
-				<section>
-					<h1>Celestial</h1>
-					<h3>provisioning server</h3>
-					<p>
-						<small>Created by <a href="narkisr.com">Ronen Narkis</a> / <a href="http://twitter.com/narkisr">@narkisr</a></small>
-					</p>
-				</section>
+	  <section>
+	    <h1>Celestial</h1>
+	    <h3>provisioning server</h3>
+	    <p>
+		<small>Created by <a href="narkisr.com">Ronen Narkis</a> / <a href="http://twitter.com/narkisr">@narkisr</a></small>
+	    </p>
+	  </section>
 
-				<section>
-					<h2>Motivation</h2>
-					<ul>
-				 	  <li>We have our Puppet/Chef scripts for provisioning </li>
-					  <li>We deploy our code using Capistrano/Fabric</li>
-					  <li>We run against EC2/VMware/...</li>
-					</ul>
-				</section>
+	  <section> 
+	    <h3>We use Puppet/Chef for configuration managment</h3>
+	    <img src="./img/puppet.jpg" alt="">
+	    <img src="./img/chef.png" width="30%" height="30%" alt="">
+	  </section>
 
-				<section>
-					<section>
-						<h2>How Do We</h2>
-						<ul>
-						  <li>Integrate tools and scripts into a cohesive system</li>
-						  <li>Allow users to self service </li>
-						  <li>Track changes and who did what</li>
-						  <li>Create systems automatically (nightly, auto-scaling)</li>
-						</ul>
-					</section>
-			     </section>
+	  <section> 
+	    <h3>We deploy our code using Capistrano/Fabric</h3>
+	    <img src="./img/fabric.jpg" alt="">
+	    <img src="./img/co.png" width="50%" height="50%" alt="">
+	  </section>
 
-				<section>
-				      <h2>Enter Celestial</h2>
-					<img src="./img/celestial-centered.png" alt="" style="border:none;" />
-				</section>
+	  <section>
+	    <h3>We run against EC2/VMware/...</h3>
+	    <table>
+		<tr>
+		  <td> <img src="./img/vmware.jpg" width="50%" height="50%" alt=""></td>
+		  <td> <img src="./img/docker.png" width="50%" height="50%" alt=""></td>
+		</tr>
+		<tr>
+		  <td> <img src="./img/ec2.png" width="50%" height="50%" alt=""> </td>
+		  <td> <img src="./img/proxmox.jpg" width="50%" height="50%" alt=""> </td>
+		</tr>
+	    </table>
 
-				<section>
-				  <h3>Best practices baked in</h3>
-				  <ul>
-				    <li>Unified Access via <a href="http://celestial-ops.com/posts/api.html">documented</a> Restful API</li>
-				    <li>Complete Auditing of all actions (via Graylog2/Kiabana)</li>
-				    <li>Asynchronous execution with distributed locking</li>
-				    <li>Role and Quota management</li>
-				  </ul>
-			     </section>
 
-			     <section> 
-			        <h2> Basic model </h2> 
-                          <p> System - Basic machine properties and type reference</p>
-				  <pre><code data-trim class="clojure"> 
-                            
+	  </section>
+
+	  <section>
+	    <section>
+		<h2>Now we need to </h2>
+	    </section>
+	    <section>
+		<h3> functional requirements </h3>
+		<ul>
+		  <li>Have an API and UI</li>
+		  <li>Allow users to self service </li>
+		  <li>Create systems automatically (nightly, auto-scaling)</li>
+		  <li>Support multiple platforms as transparently </li>
+		</ul>
+	    </section>
+	    
+	    <section> 
+		<h3>Technical requirements</h3>
+		<ul>
+		  <li>Integrate desperate tools/APIs into a cohesive system </li>
+		  <li>Prevent collisions between tools</li>
+		  <li>Audit systems changes</li>
+		  <li>Easy triaging when things go wrong</li>
+		  <li>Update external systems automatically (DNS, monitoring, routing? etc..). </li>
+		</ul>
+	    </section>
+	  </section>
+
+	  <section>
+	    <h2>Enter Celestial</h2>
+	    <img src="./img/celestial-centered.png" alt="" style="border:none;" />
+	  </section>
+
+	  <section>
+	    <h3>Best practices baked in</h3>
+	    <ul>
+		<li>Unified Access via <a href="http://celestial-ops.com/posts/api.html">documented</a> Restful API</li>
+		<li>Complete Auditing of all actions (via Graylog2/Kiabana)</li>
+		<li>Asynchronous execution with distributed locking</li>
+		<li>Role and Quota management</li>
+	    </ul>
+	  </section>
+
+	  <section> 
+	    <section> 
+	     <h2> Basic model </h2> 
+	     <p> System - Basic machine properties and type reference</p>
+
+	    </section>
+	   	    <pre><code data-trim class="clojure"> 
+
 {
  :machine {
   :hostname "red1" :user "ubuntu" :os :ubuntu-12.10
@@ -94,16 +130,16 @@
 
  :type "redis"
 }
-				  </code></pre>
+	    </code></pre>
 
-				</section>
+	  </section>
 
-				<section> 
+	  <section> 
 
-				  <h2> Basic model </h2> 
-				  <p> Type - Describes how to set up a service type</p>
+	    <h2> Basic model </h2> 
+	    <p> Type - Describes how to set up a service type</p>
 
-				  <pre><code class="clojure"> 
+	    <pre><code class="clojure"> 
 
 {
  :puppet-std {
@@ -118,34 +154,34 @@
  :classes {:redis {:append true}}
 }
 
-				  </code></pre>	
-				</section> 
+	    </code></pre>	
+	  </section> 
 
-				<section> 
-			        <h1> Demo!</h1>	
-				</section>
+	  <section> 
+	    <h1> Demo!</h1>	
+	  </section>
 
-				<section> 
-			       <h2> Summary </h2>	
-				 <ul>
-				   <li>Celestial is moving fast</li>
-				   <li>Already functional</li>
-				   <li>To be released publicly soon ;)</li>
-				 </ul>
-				</section>
+	  <section> 
+	    <h2> Summary </h2>	
+	    <ul>
+		<li>Celestial is moving fast</li>
+		<li>Already functional</li>
+		<li>To be released publicly soon ;)</li>
+	    </ul>
+	  </section>
 
-			    </div>
+	</div>
 
-			  </div>
+    </div>
 
-			  <script src="lib/js/head.min.js"></script>
-			  <script src="js/reveal.min.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
 
-			  <script>
+    <script>
 
-			    // Full list of configuration options available here:
-			    // https://github.com/hakimel/reveal.js#configuration
-			  Reveal.initialize({
+	// Full list of configuration options available here:
+	// https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
 controls: true,
 progress: true,
 history: true,
@@ -167,7 +203,7 @@ dependencies: [
 ]
 });
 
-			  </script>
+    </script>
 
-			</body>
-		    </html>
+  </body>
+</html>
