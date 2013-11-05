@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Celestial, the provisioning hub</title>
+    <title>Celestial, the provisioning server that could</title>
 
     <meta name="description" content="Celestial provisioning server introduction ">
     <meta name="author" content="Ronen Narkis">
@@ -148,43 +148,100 @@
 	    <section> 
 		<h3>Staging as scale</h3>
 		<ul>
-		  <li> Creation -> Provisioning -> Deployment -> Destruction  </li>
+		  <li> Full lifecycle mgmt (CPDD).  </li>
 		  <li> Distributed locking</li>
 		  <li> Central logging </li>
 		  <li> Network management </li>
-		   <li>Multiple environemts</li>
+		  <li> Multiple environemts</li>
 		</ul>
 	    </section>
 
 
 	    <section> 
-		<h3> Integration </h3>
+		<h3> Hypervisors </h3>
 		<ul>
-		  <li> AWS/vCenter/Proxmox/Docker (soon) </li>
-		  <li> Standalone puppet (chef next) </li>
-		  <li> Capistrano/Fabric  </li>
+		  <li> AWS: AMI, EBS, Elastic ip, regions, setting hostname </li>
+		  <li> vCenter: Templates, allocation, network setup, cluster </li>
+		  <li> Proxmox: Containers, bridging, allocation, cluster</li>
+		  <li> Docker: Containers, allocation, cluster</li>
+		  <li> All: automatic DNS registration, static ip assigning </li>
 		</ul>
 	    </section>
 
 	    <section> 
-		<h3> UI </h3>
+		<h3> Provisioning/Deployment</h3>
 		<ul>
-		  <li>Single page Webui (angularjs)</li>
-		  <li>Hubot (bi directional) </li>
-		  <li>Swagger</li>
+		  <li>Standalone puppet </li>
+		  <li>Chef (soon)</li>
+		  <li>Capistrano/Fabric</li>
 		</ul>
 	    </section>
 
-	    <section>
-		<h3> Implementation/Design</h3>
+
+	    <section> 
+		<h3> Web UI </h3>
+		<ul>
+		  <li>Single page Webui (Angularjs)</li>
+		  <li>Systems/Types listing</li>
+		  <li>Actions/Jobs invocation</li>
+		  <li>Live Job tracking</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3>API</h3>
+		<ul>
+		  <li>Swagger (full api live doc)</li>
+		  <li>REST/JSON</li>
+		  <li>Nodejs client (Hubot)</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3>Environments</h3>
+		<ul>
+		  <li>QA/Dev/Prod separation</li>
+		  <li>Each can have multiple Hypervisors</li>
+		  <li>We can limit user access to one</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3>User management</h3>
+		<ul>
+		  <li>Roles</li>
+		  <li>Quotas</li>
+		  <li>Environment locking</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3>Hubot </h3>
+		<ul>
+		  <li>Full CPDD </li>
+		  <li>Listing of actions/systems etc..</li>
+		  <li>Notifications on events</li>
+		  <li>Template support</li>
+		</ul>
+	    </section>
+
+	    <section> 
+		<h3> Logging </h3>
+		<ul>
+		  <li>Kibana/Graylog</li>
+		  <li>Transaction id tracking</li>
+		  <li>Any API access is logged</li>
+		  <li>Direct linking from Webui (soon)</li>
+		</ul>
 	    </section>
 
 	    <section> 
 		<h3> Components</h3>  
 		<ul>
-		  <li>Celestial server running on the JVM</li>
-		  <li>Redis: job queue, locks, model </li>
-		  <li>Hardware requirements (core duo 1 1.5 Ram worked fine ;))</li>
+		  <li>Single JVM process for Celestial.</li>
+		  <li>Redis: job queue, locks, model.</li>
+		  <li>Hardware (core duo 1 1.5 Ram worked fine ;))</li>
+		  <li>Easy to deploy and manage</li>
 		</ul>
 	    </section>
 
@@ -196,29 +253,109 @@
 		  <li>Docker (soon)</li>
 		</ul>
 	    </section>
+
+	  </section> 
+
+	  <section> 
+	    <section> <h3>Implementation </h3></section>
+
 	    <section>
 		<h3> Code </h3>
 		<ul>
-		  <li>3081 lines of Clojure code</li>
+		  <li>3834 lines of Clojure code</li>
 		  <li>Extensible, Vm, Provsioner, Remoter interfaces </li>
 		  <li>Polymorphic workflow sequences</li>
 		</ul>
 	    </section>
-	  </section> 
 
+	    <section> 
+		<h3> Puny </h3>
+		<pre><code data-trim>
+(require '[puny.core :as p])
+
+(p/entity foo)        
+
+(defn validate-foo [foo] {})
+
+(let [id (add-foo {:bar 1})]
+  (get-foo id) ;=> {:bar 1}
+  (foo-exists? id) ;=> truthy
+  (update-foo id {:bar 2}) 
+  (get-foo id) ;=> {:bar 2}
+  (delete-foo id)
+  (foo-exists? id) ;=> falsey
+)
+		</code></pre>
+	    </section>
+
+	    <section>
+		<h3> Swag </h3>
+		<pre><code data-trim>
+(defmodel action 
+  :operates-on :string :src :string :actions {:type "Actions"})
+
+(defroutes- actions 
+  {:path "/actions" :description "Adhoc actions managment"}
+
+  ; using custom action model
+  (POST- "/action" [& ^:action action] 
+	 {:nickname "addActions" :summary "Adds an actions set"}
+
+    {:status 200 :body (str "got action " action)}))
+		</code></pre>
+	    </section>
+
+	    <section> 
+
+		<h3> Supernal (tasks) </h3>
+		<pre><code data-trim>
+(ns- deploy 
+  (task update-code
+    (let [{:keys [src app-name run-id]} args]
+	(debug "updating code on" remote) 
+	(copy src (releases app-name run-id)))) 
+
+  (task post-update ...)
+
+  (task start ...)
+
+  (task symlink ...)
+
+  (task stop ...)
+
+  (task pre-update ...)) 
+		</code></pre>
+	    </section>
+
+	    <section> 
+
+		<h3> Supernal (graphs) </h3>
+		<pre><code data-trim>
+(lifecycle base-deploy
+  {deploy/update-code #{deploy/post-update deploy/symlink}
+   deploy/stop #{deploy/update-code}
+   deploy/pre-update #{deploy/update-code}
+   deploy/symlink #{deploy/start} 
+   deploy/post-update #{deploy/start}
+   deploy/start #{}}) 
+		</code></pre>
+	    </section>
+
+
+	  </section>
 
 	  <section> 
 	    <h1> Demo!</h1>	
 	  </section>
 
 	  <section> 
-	     <h3> Future </h3>
-	     <ul>
-	       <li>Stage Docker (dynamic hypervisors) </li>
-	       <li>Usage tracking</li>
-	       <li>Escape from SSH</li>
-		 <li>Community!</li>
-	     </ul>
+	    <h3> Future </h3>
+	    <ul>
+		<li>Dynamic hypervisors (Docker).</li>
+		<li>Resource usage tracking.</li>
+		<li>Zeromq remoting.</li>
+		<li>Modeling clusters (services).</li>
+	    </ul>
 	  </section>
 
 	  <section> 
