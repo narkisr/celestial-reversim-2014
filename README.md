@@ -2,7 +2,7 @@
 
 An introduction of Celestial for Reversim 2014
 
-View it online [here](http://narkisr.github.com/reversim-summit-2014/#title).
+View it online [here](http://narkisr.github.io/celestial-reversim-2014/#/).
 
 # License
 
